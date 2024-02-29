@@ -1,10 +1,33 @@
 import express, { query } from "express";
 import bodyParser from "body-parser";
-
+import pg from "pg"
 
 const app = express();
 const port = 3000;
 
+
+// connecting to database
+const db = new pg.Client({
+  user: "postgres",
+  host:"localhost",
+  database: "world",
+  password: "mpo58190",
+  port: 5432
+})
+
+db.connect()
+
+let quiz = []
+
+// query to database
+db.query("SELECT * FROM flags", (err, res) =>{
+  if (err) {
+    console.error("Error executing query", err.stack);
+  } else {
+    quiz = res.rows;
+  };
+  db.end()
+})
 
 
 
